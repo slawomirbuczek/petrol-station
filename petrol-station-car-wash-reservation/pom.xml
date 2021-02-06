@@ -10,13 +10,13 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.pk</groupId>
-    <artifactId>petrol-station-price-list</artifactId>
+    <groupId>com.pl</groupId>
+    <artifactId>petrol-station-car-wash-reservation</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>petrol-station-price-list</name>
-    <description>Spring Petrol station price list</description>
+    <name>petrol-station-car-wash-reservation</name>
+    <description>Spring Petrol station car wash reservation</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,9 +65,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
