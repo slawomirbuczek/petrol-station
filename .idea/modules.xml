@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/petrol-station.iml" filepath="$PROJECT_DIR$/.idea/petrol-station.iml" />
       <module fileurl="file://$PROJECT_DIR$/petrol-station-discovery-server/petrol-station-discovery-server.iml" filepath="$PROJECT_DIR$/petrol-station-discovery-server/petrol-station-discovery-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/petrol-station-price-list/petrol-station-price-list.iml" filepath="$PROJECT_DIR$/petrol-station-price-list/petrol-station-price-list.iml" />
     </modules>
   </component>
 </project>
