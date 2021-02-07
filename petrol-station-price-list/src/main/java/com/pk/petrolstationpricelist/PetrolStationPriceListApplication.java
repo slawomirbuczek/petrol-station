@@ -6,6 +6,7 @@ import com.pk.petrolstationpricelist.repositories.ProductsRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 
@@ -23,6 +24,7 @@ public class PetrolStationPriceListApplication {
         SpringApplication.run(PetrolStationPriceListApplication.class, args);
     }
 
+    @Profile("dev")
     @PostConstruct
     public void setProducts() {
         productsRepository.save(new Products(Product.E95, 5.79f));
