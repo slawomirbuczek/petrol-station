@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/petrol-station.iml" filepath="$PROJECT_DIR$/.idea/petrol-station.iml" />
+      <module fileurl="file://$PROJECT_DIR$/petrol-station-auth-service/petrol-station-auth-service.iml" filepath="$PROJECT_DIR$/petrol-station-auth-service/petrol-station-auth-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/petrol-station-car-wash-reservation/petrol-station-car-wash-reservation.iml" filepath="$PROJECT_DIR$/petrol-station-car-wash-reservation/petrol-station-car-wash-reservation.iml" />
       <module fileurl="file://$PROJECT_DIR$/petrol-station-discovery-server/petrol-station-discovery-server.iml" filepath="$PROJECT_DIR$/petrol-station-discovery-server/petrol-station-discovery-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/petrol-station-gateway/petrol-station-gateway.iml" filepath="$PROJECT_DIR$/petrol-station-gateway/petrol-station-gateway.iml" />
