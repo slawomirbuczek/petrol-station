@@ -1,6 +1,7 @@
 package com.pk.petrolstationauthservice.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pk.petrolstationauthservice.model.UserCredentials;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -67,23 +68,4 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
     }
 
-    private static class UserCredentials {
-        private String username, password;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
 }

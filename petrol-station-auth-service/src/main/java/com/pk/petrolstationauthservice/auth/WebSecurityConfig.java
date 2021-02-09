@@ -1,12 +1,14 @@
 package com.pk.petrolstationauthservice.auth;
 
 import com.pk.petrolstationauthservice.service.UserDetailsServiceImpl;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,15 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final JwtConfig jwtConfig;
     private final UserDetailsServiceImpl userDetailsService;
-    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(JwtConfig jwtConfig, UserDetailsServiceImpl userDetailsService, PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(JwtConfig jwtConfig, UserDetailsServiceImpl userDetailsService) {
         this.jwtConfig = jwtConfig;
         this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -41,9 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }
