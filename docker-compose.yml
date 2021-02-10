@@ -1,0 +1,44 @@
+version: '3'
+services:
+
+  petrol-station-discovery-server:
+    build:
+      ./petrol-station-discovery-server
+    ports:
+      - 8761:8761
+
+  petrol-station-gateway:
+    build:
+      ./petrol-station-gateway
+    ports:
+      - 8762:8762
+    depends_on:
+      - petrol-station-discovery-server
+
+  petrol-station-auth-service:
+    build:
+      ./petrol-station-auth-service
+    ports:
+      - 8763:8763
+    depends_on:
+      - petrol-station-discovery-server
+      - database
+
+  petrol-station-price-list:
+    build:
+      ./petrol-station-price-list
+    ports:
+      - 8764:8764
+    depends_on:
+      - petrol-station-discovery-server
+      - database
+
+  database:
+    container_name: 'postgres'
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: petrol-station-db
+    ports:
+      - 5432:5432
