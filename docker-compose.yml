@@ -33,6 +33,24 @@ services:
       - petrol-station-discovery-server
       - database
 
+  petrol-station-monitoring:
+    build:
+      ./petrol-station-monitoring
+    ports:
+      - 8765:8765
+    depends_on:
+      - petrol-station-discovery-server
+      - database
+
+  petrol-station-car-wash-reservation:
+    build:
+      ./petrol-station-car-wash-reservation
+    ports:
+      - 8766:8766
+    depends_on:
+      - petrol-station-discovery-server
+      - database
+
   database:
     container_name: 'postgres'
     image: postgres
