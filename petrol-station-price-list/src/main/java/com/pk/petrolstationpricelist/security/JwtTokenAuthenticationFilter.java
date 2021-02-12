@@ -1,7 +1,8 @@
-package com.pk.petrolstationgateway.security;
+package com.pk.petrolstationpricelist.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,34 +13,36 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtConfig jwtConfig;
+    private final PublicKey publicKey;
 
-    public JwtTokenAuthenticationFilter(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
+    public JwtTokenAuthenticationFilter(PublicKey publicKey) {
+        this.publicKey = publicKey;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        String header = request.getHeader(jwtConfig.getHeader());
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(header == null || !header.startsWith(jwtConfig.getPrefix())) {
+        if(header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
 
-        String token = header.replace(jwtConfig.getPrefix(), "");
+        String token = header.replace("Bearer ", "");
 
         try {
 
-            Claims claims = Jwts.parser()
-                    .setSigningKey(jwtConfig.getSecret().getBytes())
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(publicKey)
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
 
@@ -60,4 +63,5 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         chain.doFilter(request, response);
     }
+
 }

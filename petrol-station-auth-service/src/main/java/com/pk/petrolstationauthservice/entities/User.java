@@ -1,5 +1,6 @@
 package com.pk.petrolstationauthservice.entities;
 
+import com.pk.petrolstationauthservice.model.Roles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,23 +21,28 @@ public class User implements UserDetails {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Roles role;
+
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, Roles role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
-    public User(Long id, String username, String password) {
+    public User(Long id, String username, String password, Roles role) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

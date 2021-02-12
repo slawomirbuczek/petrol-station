@@ -12,8 +12,6 @@ services:
       ./petrol-station-gateway
     ports:
       - 8762:8762
-    depends_on:
-      - petrol-station-discovery-server
 
   petrol-station-auth-service:
     build:
@@ -21,7 +19,6 @@ services:
     ports:
       - 8763:8763
     depends_on:
-      - petrol-station-discovery-server
       - database
 
   petrol-station-price-list:
@@ -30,25 +27,7 @@ services:
     ports:
       - 8764:8764
     depends_on:
-      - petrol-station-discovery-server
-      - database
-
-  petrol-station-monitoring:
-    build:
-      ./petrol-station-monitoring
-    ports:
-      - 8765:8765
-    depends_on:
-      - petrol-station-discovery-server
-      - database
-
-  petrol-station-car-wash-reservation:
-    build:
-      ./petrol-station-car-wash-reservation
-    ports:
-      - 8766:8766
-    depends_on:
-      - petrol-station-discovery-server
+      - petrol-station-auth-service
       - database
 
   database:

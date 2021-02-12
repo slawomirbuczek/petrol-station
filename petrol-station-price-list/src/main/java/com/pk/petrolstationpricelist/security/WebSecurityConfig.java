@@ -1,4 +1,4 @@
-package com.pk.petrolstationgateway.security;
+package com.pk.petrolstationpricelist.security;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtConfig jwtConfig;
+    private final PublicKeyService publicKeyService;
 
-    public WebSecurityConfig(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
+    public WebSecurityConfig(PublicKeyService publicKeyService) {
+        this.publicKeyService = publicKeyService;
     }
 
     @Override
@@ -26,10 +26,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
-                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenAuthenticationFilter(publicKeyService.getPublicKey()), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
-                .antMatchers("/price-list").hasRole("CUSTOMER")
+                .antMatchers(HttpMethod.GET, "/pricelist").permitAll()
+                .antMatchers(HttpMethod.PUT, "/pricelist").hasRole("ADMIN")
                 .anyRequest().authenticated();
     }
 

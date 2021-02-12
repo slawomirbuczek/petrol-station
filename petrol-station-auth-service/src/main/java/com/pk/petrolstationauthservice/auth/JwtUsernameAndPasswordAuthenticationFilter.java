@@ -3,7 +3,8 @@ package com.pk.petrolstationauthservice.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pk.petrolstationauthservice.model.UserCredentials;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,7 +31,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         this.authManager = authManager;
         this.jwtConfig = jwtConfig;
 
-        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
+        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
     }
 
     @Override
@@ -62,10 +63,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000L))
-                .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
+                .signWith(jwtConfig.getPrivateKey())
                 .compact();
 
-        response.addHeader(jwtConfig.getHeader(), jwtConfig.getPrefix() + token);
+        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
     }
 
 }
