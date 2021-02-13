@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PublicKeyService publicKeyService;
+    private final ApiPublicKey apiPublicKey;
 
-    public WebSecurityConfig(PublicKeyService publicKeyService) {
-        this.publicKeyService = publicKeyService;
+    public WebSecurityConfig(ApiPublicKey apiPublicKey) {
+        this.apiPublicKey = apiPublicKey;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
-                .addFilterAfter(new JwtTokenAuthenticationFilter(publicKeyService.getPublicKey()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenAuthenticationFilter(apiPublicKey), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/pricelist").permitAll()
                 .antMatchers(HttpMethod.PUT, "/pricelist").hasRole("ADMIN")

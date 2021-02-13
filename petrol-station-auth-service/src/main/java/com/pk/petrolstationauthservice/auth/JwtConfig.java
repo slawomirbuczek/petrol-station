@@ -2,6 +2,8 @@ package com.pk.petrolstationauthservice.auth;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 import java.security.KeyPair;
@@ -11,6 +13,8 @@ import java.security.PublicKey;
 @Configuration
 public class JwtConfig {
 
+    private final Logger logger = LoggerFactory.getLogger(JwtConfig.class);
+
     private final int expiration;
 
     private final PrivateKey privateKey;
@@ -18,6 +22,7 @@ public class JwtConfig {
     private final PublicKey publicKey;
 
     public JwtConfig() {
+        logger.trace("Creating new KeyPair");
         KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
         this.privateKey = keyPair.getPrivate();
         this.publicKey = keyPair.getPublic();

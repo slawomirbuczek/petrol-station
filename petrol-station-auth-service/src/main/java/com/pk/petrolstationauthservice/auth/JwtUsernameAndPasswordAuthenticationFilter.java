@@ -3,6 +3,8 @@ package com.pk.petrolstationauthservice.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pk.petrolstationauthservice.model.UserCredentials;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +25,8 @@ import java.util.stream.Collectors;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private final Logger logger = LoggerFactory.getLogger(JwtUsernameAndPasswordAuthenticationFilter.class);
     private final AuthenticationManager authManager;
-
     private final JwtConfig jwtConfig;
 
     public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtConfig jwtConfig) {
@@ -38,6 +40,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
+        logger.trace("Attempting authentication");
         try {
             UserCredentials creds = new ObjectMapper().readValue(request.getInputStream(), UserCredentials.class);
 
@@ -45,7 +48,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                     creds.getUsername(), creds.getPassword(), Collections.emptyList());
 
             return authManager.authenticate(authToken);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +56,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication auth) {
-
+        logger.trace("User authenticated, building jwt");
         long now = System.currentTimeMillis();
 
         String token = Jwts.builder()

@@ -3,6 +3,8 @@ package com.pk.petrolstationauthservice.service;
 import com.pk.petrolstationauthservice.entities.User;
 import com.pk.petrolstationauthservice.model.Roles;
 import com.pk.petrolstationauthservice.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import javax.annotation.PostConstruct;
 @Component
 public class TestUsers {
 
+    private final Logger logger = LoggerFactory.getLogger(TestUsers.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -21,6 +24,7 @@ public class TestUsers {
 
     @PostConstruct
     private void addTestUsers() {
+        logger.trace("Adding test users");
         userRepository.save(new User(1L, "jan", passwordEncoder.encode("kowalski"), Roles.ADMIN));
 
         userRepository.save(new User(2L, "tomasz", passwordEncoder.encode("nowak"), Roles.CASHIER));

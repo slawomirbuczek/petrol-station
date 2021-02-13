@@ -18,6 +18,8 @@ services:
       ./petrol-station-auth-service
     ports:
       - 8763:8763
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
     depends_on:
       - database
 
@@ -26,6 +28,8 @@ services:
       ./petrol-station-price-list
     ports:
       - 8764:8764
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
     depends_on:
       - petrol-station-auth-service
       - database
