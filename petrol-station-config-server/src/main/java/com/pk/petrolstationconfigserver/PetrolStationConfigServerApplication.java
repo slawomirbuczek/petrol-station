@@ -18,6 +18,7 @@ public class PetrolStationConfigServerApplication {
         logger.trace("Config server attempting to run");
         SpringApplication.run(PetrolStationConfigServerApplication.class, args);
         logger.trace("Config server running");
+
     }
 
 }

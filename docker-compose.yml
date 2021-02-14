@@ -1,37 +1,35 @@
 version: '3'
 services:
 
+  petrol-station-config-server:
+    build:
+      ./petrol-station-config-server
+    ports:
+      - 8888:8888
+
   petrol-station-discovery-server:
     build:
       ./petrol-station-discovery-server
     ports:
       - 8761:8761
+    depends_on:
+      - petrol-station-config-server
 
   petrol-station-gateway:
     build:
       ./petrol-station-gateway
     ports:
       - 8762:8762
+    depends_on:
+      - petrol-station-config-server
 
   petrol-station-auth-service:
     build:
       ./petrol-station-auth-service
     ports:
       - 8763:8763
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
     depends_on:
-      - database
-
-  petrol-station-price-list:
-    build:
-      ./petrol-station-price-list
-    ports:
-      - 8764:8764
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-    depends_on:
-      - petrol-station-auth-service
+      - petrol-station-config-server
       - database
 
   database:
