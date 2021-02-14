@@ -32,6 +32,15 @@ services:
       - petrol-station-config-server
       - database
 
+  petrol-station-price-list:
+    build:
+      ./petrol-station-price-list
+    ports:
+      - 8764:8764
+    depends_on:
+      - petrol-station-config-server
+      - database
+
   database:
     container_name: 'postgres'
     image: postgres
